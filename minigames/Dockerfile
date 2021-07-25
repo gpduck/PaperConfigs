@@ -1,6 +1,6 @@
 from paper:latest
 
-#ADD server.properties /paper/
+ADD server.properties /paper/
 
 ADD plugins/ /paper/plugins/
 ADD https://storage4e4c489d.blob.core.windows.net/plugins/Minigames/gson-2.8.0.jar /paper/plugins/
