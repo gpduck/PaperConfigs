@@ -40,7 +40,7 @@ clearStart: true
 
 # If set to true, compass will have a counter of blocks displayed
 # between you and your target
-distanceTracker: true
+distanceTracker: false
 
 # If set to true, all players will reset achievements on start
 achievementReset: true
