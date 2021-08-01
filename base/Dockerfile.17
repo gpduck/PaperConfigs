@@ -6,11 +6,11 @@ RUN chmod +x /install-pwsh.sh && /install-pwsh.sh
 RUN mkdir /paper \
     && mkdir /server \
     && echo 'eula=true' > /server/eula.txt
-ADD https://papermc.io/api/v2/projects/paper/versions/1.16.5/builds/783/downloads/paper-1.16.5-783.jar /paper/paper.jar
-ADD startup.sh /paper/startup.sh
+ADD https://papermc.io/api/v2/projects/paper/versions/1.17/builds/79/downloads/paper-1.17-79.jar /paper/paper.jar
+ADD https://launcher.mojang.com/v1/objects/0a269b5f2c5b93b1712d0f5dc43b6182b9ab254e/server.jar /server/cache/mojang_1.17.jar
+ADD startup.ps1 /paper/startup.ps1
 ADD server.properties /paper/
 ADD plugins/ /paper/plugins/
-RUN chmod +x /paper/startup.sh
 
 VOLUME ["/server"]
 EXPOSE 25565/tcp
@@ -18,4 +18,4 @@ EXPOSE 25565/udp
 
 WORKDIR /server
 ENV SERVER_NAME='Paper Server'
-CMD /paper/startup.sh
+CMD /paper/startup.ps1

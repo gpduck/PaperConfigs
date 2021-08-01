@@ -1,0 +1,20 @@
+from amazoncorretto:16-alpine
+
+ADD install-pwsh.sh /
+RUN chmod +x /install-pwsh.sh && /install-pwsh.sh
+
+RUN mkdir /paper \
+    && mkdir /server
+
+ADD https://papermc.io/api/v2/projects/paper/versions/1.16.5/builds/783/downloads/paper-1.16.5-783.jar /paper/paper.jar
+ADD startup.ps1 /paper/startup.ps1
+ADD server.properties /paper/
+ADD plugins/ /paper/plugins/
+
+VOLUME ["/server"]
+EXPOSE 25565/tcp
+EXPOSE 25565/udp
+
+WORKDIR /server
+ENV SERVER_NAME='Paper Server'
+CMD /paper/startup.ps1
