@@ -9,6 +9,7 @@ RUN mkdir /paper \
 ADD https://papermc.io/api/v2/projects/paper/versions/1.17/builds/79/downloads/paper-1.17-79.jar /paper/paper.jar
 ADD https://launcher.mojang.com/v1/objects/0a269b5f2c5b93b1712d0f5dc43b6182b9ab254e/server.jar /server/cache/mojang_1.17.jar
 ADD startup.ps1 /paper/startup.ps1
+RUN chmod +x /paper/startup.ps1
 ADD server.properties /paper/
 ADD plugins/ /paper/plugins/
 
