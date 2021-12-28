@@ -1,4 +1,4 @@
-from paper:16.5
+from paper:17.1
 
 ADD server.properties /paper/
 
