@@ -57,7 +57,7 @@ if(!(Test-Path /server/server.properties)) {
     Copy-Item /paper/server.properties /server/
 }
 
-if(!(Test-Path /server/spigot.yml)) {
+if(!(Test-Path /server/spigot.yml) -and (Test-Path /paper/spigot.yml)) {
     Copy-Item /paper/spigot.yml /server/
 }
 
@@ -99,6 +99,10 @@ if($env:OP) {
     if($dirty) {
         Set-Content $OpsPath -Value (ConvertTo-Json $Ops -Depth 10)
     }
+}
+
+if(Test-Path /paper/init.ps1) {
+    /paper/init.ps1
 }
 
 java "-Xms$env:Xms" "-Xmx$env:Xmx" -jar /paper/paper.jar --nogui --server-name $env:SERVER_NAME --plugins /paper/plugins
