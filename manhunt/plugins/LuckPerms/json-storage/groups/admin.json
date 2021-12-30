@@ -1,0 +1,9 @@
+{
+    "name": "admin",
+    "permissions": [
+      {
+        "permission": "*",
+        "value": true
+      }
+    ]
+  }

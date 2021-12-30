@@ -1,0 +1,9 @@
+{
+    "name": "default",
+    "permissions": [
+      {
+        "permission": "manhuntplus.hunter",
+        "value": true
+      }
+    ]
+  }
