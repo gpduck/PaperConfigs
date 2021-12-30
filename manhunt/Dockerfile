@@ -1,4 +1,4 @@
-from paper:17.1
+from paper:18.1
 
 ADD init.ps1 /paper/
 ADD server.properties /paper/
