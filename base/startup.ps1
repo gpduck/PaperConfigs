@@ -1,5 +1,20 @@
 #!/usr/bin/env pwsh
 
+switch($PSScriptRoot) {
+    "/forge" {
+        $InstanceRoot = "/forge"
+        $ServerRoot = "/forge"
+        $Startup = "$ServerRoot/run.sh"
+        $StartupArgs = @()
+    }
+    "/paper" {
+        $InstanceRoot = "/server"
+        $ServerRoot = "/paper"
+        $Startup = "java"
+        $StartupArgs = "-Xms$env:Xms","-Xmx$env:Xmx","-jar","$ServerRoot/paper.jar","--nogui","--server-name","$env:SERVER_NAME","--plugins","/paper/plugins"
+    }
+}
+
 function Get-OfflineUuid {
     param(
         $Name
@@ -43,7 +58,7 @@ function Get-OnlineUuid {
 
 function Get-ServerProperties {
     param(
-        $Path = "/server/server.properties"
+        $Path = "$InstanceRoot/server.properties"
     )
     $Props = @{}
     Get-Content -Path $Path | ForEach-Object {
@@ -53,22 +68,26 @@ function Get-ServerProperties {
     $Props
 }
 
-if(!(Test-Path /server/server.properties)) {
-    Copy-Item /paper/server.properties /server/
+if(!(Test-Path $InstanceRoot/server.properties)) {
+    Copy-Item $ServerRoot/server.properties $InstanceRoot/
 }
 
-if(!(Test-Path /server/spigot.yml) -and (Test-Path /paper/spigot.yml)) {
-    Copy-Item /paper/spigot.yml /server/
+if(!(Test-Path $InstanceRoot/spigot.yml) -and (Test-Path $ServerRoot/spigot.yml)) {
+    Copy-Item $ServerRoot/spigot.yml $InstanceRoot/
 }
 
-if(!(Test-Path /server/eula.txt)) {
-    Set-Content -Path /server/eula.txt -Value "eula=true"
+if(!(Test-Path $InstanceRoot/paper.yml) -and (Test-Path $ServerRoot/paper.yml)) {
+    Copy-Item $ServerRoot/paper.yml $InstanceRoot/
+}
+
+if(!(Test-Path $InstanceRoot/eula.txt)) {
+    Set-Content -Path $InstanceRoot/eula.txt -Value "eula=true"
 }
 
 $ServerProps = Get-ServerProperties
 
 if($env:OP) {
-    $OpsPath = '/server/ops.json'
+    $OpsPath = "$InstanceRoot/ops.json"
     $EnvOps = $env:OP.split(",")
     $dirty = $false
 
@@ -84,10 +103,18 @@ if($env:OP) {
         if($OpName -notin $Ops.name) {
             $dirty = $true
             if($ServerProps["online-mode"] -eq "true") {
-                $Uuid = Get-OnlineUuid $OpName
+                
             } else {
-                $Uuid = Get-OfflineUuid $OpName
+                
             }
+            $Uuid = Get-OnlineUuid $OpName
+            $Ops += @{
+                uuid = $Uuid
+                name = $OpName
+                level = 4
+                bypassesPlayerLimit = $true
+            }
+            $Uuid = Get-OfflineUuid $OpName
             $Ops += @{
                 uuid = $Uuid
                 name = $OpName
@@ -101,8 +128,8 @@ if($env:OP) {
     }
 }
 
-if(Test-Path /paper/init.ps1) {
-    /paper/init.ps1
+if(Test-Path $ServerRoot/init.ps1) {
+    &$ServerRoot/init.ps1
 }
 
-java "-Xms$env:Xms" "-Xmx$env:Xmx" -jar /paper/paper.jar --nogui --server-name $env:SERVER_NAME --plugins /paper/plugins
+&$Startup $StartupArgs
