@@ -10,5 +10,5 @@ ADD https://storage4e4c489d.blob.core.windows.net/plugins/LuckPerms/LuckPerms-Bu
 ADD manhuntdrops/ /server/world/datapacks/manhuntdrops/
 ADD paper.yml /paper/
 
-ENV Xms='8G'
-ENV Xmx='8G'
+ENV Xms='6G'
+ENV Xmx='6G'

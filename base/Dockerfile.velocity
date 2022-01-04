@@ -6,6 +6,7 @@ RUN chmod +x /install-pwsh.sh && /install-pwsh.sh
 RUN mkdir /velocity
 ADD https://papermc.io/api/v2/projects/velocity/versions/3.1.1/builds/98/downloads/velocity-3.1.1-98.jar /velocity/velocity.jar
 ADD velocity.startup.ps1 /velocity/startup.ps1
+RUN chmod +x /velocity/startup.ps1
 ADD velocity.toml /velocity/
 
 EXPOSE 25577/tcp
