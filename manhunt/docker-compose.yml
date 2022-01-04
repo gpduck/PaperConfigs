@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+  velocity:
+    image: paper:velocity
+    ports:
+      - "25565:25577"
+    environment:
+      - OP
+  lobby:
+    image: lobby
+    environment:
+      - OP
+  manhunt1:
+    image: manhunt
+    depends_on:
+      - "velocity"
+    environment:
+      - OP
+  manhunt2:
+    image: manhunt
+    depends_on:
+      - "velocity"
+    environment:
+      - OP
