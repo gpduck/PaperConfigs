@@ -1,0 +1,25 @@
+from amazoncorretto:17-alpine
+
+ADD install-pwsh.sh /
+RUN chmod +x /install-pwsh.sh && /install-pwsh.sh
+
+RUN mkdir /forge \
+    && echo 'eula=true' > /forge/eula.txt
+
+WORKDIR /forge
+
+ADD https://maven.minecraftforge.net/net/minecraftforge/forge/1.18.1-39.0.9/forge-1.18.1-39.0.9-installer.jar /forge/installer.jar
+RUN java -jar installer.jar --installServer
+ADD startup.ps1 /forge/startup.ps1
+RUN chmod +x /forge/startup.ps1
+ADD server.properties /forge/
+
+VOLUME ["/server"]
+EXPOSE 25565/tcp
+EXPOSE 25565/udp
+
+ENV SERVER_NAME='Forge Server'
+ENV Xms='2G'
+ENV Xmx='2G'
+
+CMD /forge/startup.ps1
