@@ -12,6 +12,7 @@ ADD startup.ps1 /velocity/startup.ps1
 RUN chmod +x /velocity/startup.ps1
 ADD velocity.toml /velocity/
 
+VOLUME ["/etc/mcinfo"]
 EXPOSE 25577/tcp
 EXPOSE 25577/udp
 
@@ -19,5 +20,6 @@ ENV Xms='1G'
 ENV Xmx='1G'
 
 WORKDIR /velocity
+
 
 CMD /velocity/startup.ps1
