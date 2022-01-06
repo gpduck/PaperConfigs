@@ -6,6 +6,8 @@ services:
       - "25565:25577"
     environment:
       - OP
+    volumes:
+      - /etc/mcinfo:/etc/mcinfo
   lobby:
     image: lobby
     environment:

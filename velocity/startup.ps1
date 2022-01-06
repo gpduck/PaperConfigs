@@ -36,4 +36,18 @@ if($env:OP) {
     }
 }
 
+$mcinfo = Get-Content /etc/mcinfo | ConvertFrom-Json
+$velocityConfig = [io.file]::ReadAllText("/velocity/velocity.toml")
+$ServerList = @()
+for($i = 1; $i -le $mcinfo.lobbyCount; $i++) {
+    $ServerList += " lobby = 'manhunt-lobby-${i}:25565'"
+}
+for($i = 1; $i -le $mcinfo.manhuntCount; $i++) {
+    $ServerList += " manhunt$i = 'manhunt-manhunt-${i}:25565'"
+}
+$velocityConfig = $velocityConfig.replace("##SERVERS##", @"
+$($ServerList -join "`r`n")
+"@)
+[IO.File]::WriteAllText("/velocity/velocity.toml", $velocityConfig)
+
 java "-Xms$env:Xms" "-Xmx$env:Xmx" -XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:+UnlockExperimentalVMOptions -XX:+ParallelRefProcEnabled -XX:+AlwaysPreTouch -XX:MaxInlineLevel=15 -jar velocity.jar
