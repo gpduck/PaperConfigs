@@ -10,13 +10,7 @@ services:
     image: lobby
     environment:
       - OP
-  manhunt1:
-    image: manhunt
-    depends_on:
-      - "velocity"
-    environment:
-      - OP
-  manhunt2:
+  manhunt:
     image: manhunt
     depends_on:
       - "velocity"
