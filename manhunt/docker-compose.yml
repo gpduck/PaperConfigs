@@ -2,6 +2,7 @@ version: "3.9"
 services:
   velocity:
     image: velocity
+    restart: always
     ports:
       - "25565:25577"
     environment:
@@ -10,10 +11,12 @@ services:
       - /etc/mcinfo:/etc/mcinfo
   lobby:
     image: lobby
+    restart: always
     environment:
       - OP
   manhunt:
     image: manhunt
+    restart: always
     depends_on:
       - "velocity"
     environment:
