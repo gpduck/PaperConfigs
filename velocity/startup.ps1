@@ -36,22 +36,33 @@ if($env:OP) {
     }
 }
 
-$mcinfo = Get-Content /etc/mcinfo | ConvertFrom-Json
-$velocityConfig = [io.file]::ReadAllText("/velocity/velocity.toml")
-$ServerList = @()
+if(Test-Path /etc/mcinfo -PathType Leaf) {
+    Write-Host "Found /etc/mcinfo"
+    $mcinfo = Get-Content /etc/mcinfo | ConvertFrom-Json
+    $ServerList = @()
 
-if($mcinfo.proxiedServers) {
-    $mcinfo.proxiedServers | ForEach-Object {
-        $ServerList += " $($_.Name) = '$($_.dns):25565'"
+    if($mcinfo.proxiedServers) {
+        $mcinfo.proxiedServers | ForEach-Object {
+            $ServerList += " $($_.Name) = '$($_.dns):25565'"
+        }
     }
-}
-for($i = 1; $i -le $mcinfo.lobbyCount; $i++) {
-    $ServerList += " lobby = 'manhunt-lobby-${i}:25565'"
-}
-for($i = 1; $i -le $mcinfo.manhuntCount; $i++) {
-    $ServerList += " manhunt$i = 'manhunt-manhunt-${i}:25565'"
+    for($i = 1; $i -le $mcinfo.lobbyCount; $i++) {
+        $ServerList += " lobby = 'manhunt-lobby-${i}:25565'"
+    }
+    for($i = 1; $i -le $mcinfo.manhuntCount; $i++) {
+        $ServerList += " manhunt$i = 'manhunt-manhunt-${i}:25565'"
+    }
+} else {
+    Write-Host "Missing /etc/mcinfo, using default config"
+    $ServerList = @(
+        " lobby = 'lobby:25565'",
+        " manhunt1 = 'manhunt1:25565'"
+    )
 }
 
+Write-Host "Servers $ServerList"
+
+$velocityConfig = [io.file]::ReadAllText("/velocity/velocity.toml")
 $velocityConfig = $velocityConfig.replace("##SERVERS##", @"
 $($ServerList -join "`r`n")
 "@)

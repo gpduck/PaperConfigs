@@ -1,0 +1,9 @@
+{
+    "name": "default",
+    "permissions": [
+      {
+        "permission": "velocityparty.party",
+        "value": true
+      }
+    ]
+  }
