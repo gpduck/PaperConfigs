@@ -66,6 +66,12 @@ $velocityConfig = [io.file]::ReadAllText("/velocity/velocity.toml")
 $velocityConfig = $velocityConfig.replace("##SERVERS##", @"
 $($ServerList -join "`r`n")
 "@)
+if($mcinfo.servername) {
+    $velocityConfig = $velocityConfig -replace 'motd = .*',"motd = `"$($mcinfo.servername)`""
+}
+if($mcinfo.secret) {
+    $velocityConfig = $velocityConfig -replace 'forwarding-secret = .*',"forwarding-secret = '$($mcinfo.secret)'"
+}
 [IO.File]::WriteAllText("/velocity/velocity.toml", $velocityConfig)
 
 java "-Xms$env:Xms" "-Xmx$env:Xmx" -XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:+UnlockExperimentalVMOptions -XX:+ParallelRefProcEnabled -XX:+AlwaysPreTouch -XX:MaxInlineLevel=15 -jar velocity.jar
