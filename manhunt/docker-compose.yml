@@ -23,3 +23,6 @@ services:
       - "velocity"
     environment:
       - OP
+  web:
+    image: web
+    restart: always
