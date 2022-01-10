@@ -33,3 +33,14 @@ if($env:OP) {
         }
     }
 }
+
+if(Test-Path /etc/mcinfo -PathType Leaf) {
+    Write-Host "Found /etc/mcinfo"
+    $mcinfo = Get-Content /etc/mcinfo | ConvertFrom-Json
+}
+
+$paperyml = [io.file]::ReadAllText("/server/paper.yml")
+if($mcinfo.secret) {
+    $paperyml = $paperyml -replace '    secret: .*',"    secret: $($mcinfo.secret)"
+}
+[IO.File]::WriteAllText("/server/paper.yml", $paperyml)
