@@ -14,6 +14,8 @@ services:
     restart: always
     environment:
       - OP
+    volumes:
+      - /etc/mcinfo:/etc/mcinfo
   manhunt:
     image: manhunt
     restart: always
