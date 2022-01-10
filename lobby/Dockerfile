@@ -1,5 +1,6 @@
 FROM paper:18.1
 
+ADD init.ps1 /paper/
 ADD paper.yml /paper/
 ADD server.properties /paper/
 
