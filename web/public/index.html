@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Minecraft Connection Info</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+        <style>
+            * {
+                font-family: 'Inter', 'sans-serif';
+            }
+
+            img {
+                display: block;
+            }
+
+            #overlay {
+                position: absolute;
+                top: 82px;
+                left: 30px;
+                color: white;
+                font-size: 16px;
+                font-weight: bold;
+            }
+            
+            .overlay-container {
+                position: relative;
+            }
+        </style>
+    </head>
+    <body>
+        <p>
+            On the multiplayer menu in Java Minecraft, select "Direct Connection":
+            <img src="/direct-connection-1.jpg">
+        </p>
+        <p class="overlay-container">
+            Next add the server address and click "Join Server":
+            <span id="overlay">alsdkfjladkf</span>
+            <img src="/direct-connection-2.jpg">
+        </p>
+        <script>
+            let overlay = document.getElementById("overlay");
+            overlay.textContent = `${window.location.hostname}`
+        </script>
+    </body>
+</html>
