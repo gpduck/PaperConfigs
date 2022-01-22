@@ -13,6 +13,7 @@ RUN java -jar installer.jar --installServer
 ADD startup.ps1 /forge/startup.ps1
 RUN chmod +x /forge/startup.ps1
 ADD server.properties /forge/
+ADD mc.psm1 /usr/local/share/powershell/Modules/mc/
 
 VOLUME ["/server"]
 EXPOSE 25565/tcp
