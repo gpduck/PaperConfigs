@@ -1,4 +1,13 @@
 
+function Backup-World {
+    param(
+        $World = "world"
+    )
+    pushd /server
+    $Filename = "${World}_{0}.tar.gz" -f ([DateTime]::now.toString("yyyy-MM-dd_HH-mm-ss"))
+    tar -czvf $Filename $World
+}
+
 function Get-McInfo {
     if(Test-Path /etc/mcinfo -PathType Leaf) {
         Write-Host "Found /etc/mcinfo"
