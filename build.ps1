@@ -6,6 +6,6 @@ param(
     docker build -t paper:$_ -f ./base/Dockerfile.$_ ./base
 }
 
-"blockhunt", "clipso-mega-modded", "lobby", "manhunt", "manhunt-twitchspawn", "minigames", "terminator", "velocity" | ?{$_ -like $Image} | ForEach-Object {
+"blockhunt", "clipso-mega-modded", "lobby", "manhunt", "manhunt-twitchspawn", "minigames", "terminator", "velocity", "web" | ?{$_ -like $Image} | ForEach-Object {
     docker build -t $_ ./$_
 }
